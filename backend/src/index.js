@@ -1,4 +1,6 @@
 import express from "express";
+import { authRouter } from "./routes/auth.route.js";
+import { courseRouter } from "./routes/course.route.js";
 
 const app = express();
 const PORT = process.config.PORT || process.env.DEV_PORT || 3000;
@@ -9,6 +11,9 @@ app.get("/", (req, res) => {
     message: "server is running!",
   });
 });
+
+app.use("/api/auth", authRouter);
+app.use("/api/course", courseRouter);
 
 app.listen(PORT, () => {
   if (process.env.NODE_ENV === "production") {
