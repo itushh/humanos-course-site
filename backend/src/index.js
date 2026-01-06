@@ -1,5 +1,6 @@
 import express from "express";
 import { config } from "dotenv";
+import cors from "cors";
 import cookieParser from "cookie-parser";
 
 import { connectDB } from "./lib/db.js";
@@ -10,6 +11,25 @@ config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 const NODE_ENV = process.env.NODE_ENV || "development";
+const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN;
+
+/* -------------------- MIDDLEWARES -------------------- */
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      //server to server request
+      if (!origin) return callback(null, true);
+
+      if (origin === FRONTEND_ORIGIN) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"), false);
+    },
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
