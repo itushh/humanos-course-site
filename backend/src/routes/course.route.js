@@ -1,8 +1,9 @@
 import { Router } from "express";
 import { enroll, getAll, getOne } from "../controllers/course.controller.js";
+import { authMiddleware } from "../middlewares/auth.middleware.js";
 
 export const courseRouter = Router();
 
-courseRouter.get("/:slug", getOne);
 courseRouter.get("/all", getAll);
-courseRouter.get("/enroll", enroll);
+courseRouter.get("/:slug", getOne);
+courseRouter.get("/enroll/:slug", authMiddleware, enroll);

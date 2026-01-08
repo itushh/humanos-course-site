@@ -17,6 +17,12 @@ const courseSchema = new Schema(
       index: true,
     },
 
+    public_id: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+
     description: {
       type: String,
       required: true,
@@ -25,6 +31,7 @@ const courseSchema = new Schema(
 
     thumbnail: {
       type: String,
+      required: true,
     },
 
     price: {
@@ -43,9 +50,8 @@ const courseSchema = new Schema(
       default: [],
     },
 
-    duration_minutes: {
-      type: Number,
-      min: 0,
+    duration: {
+      type: String,
     },
   },
   {
