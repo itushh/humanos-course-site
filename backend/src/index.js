@@ -1,13 +1,14 @@
-import express from "express";
 import { config } from "dotenv";
+import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+
+config();
 
 import { connectDB } from "./lib/db.js";
 import { authRouter } from "./routes/auth.route.js";
 import { courseRouter } from "./routes/course.route.js";
 
-config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 const NODE_ENV = process.env.NODE_ENV || "development";
