@@ -3,9 +3,8 @@ import Lander from './pages/Lander'
 import Course from './pages/Course'
 import Learn from './pages/Learn'
 import Dashboard from './pages/Dashboard'
-import Register from './pages/Register'
-import Login from './pages/Login'
 import NotFound from './pages/NotFound'
+import Auth from './pages/Auth'
 
 function App() {
   return (
@@ -15,8 +14,7 @@ function App() {
         <Route path='/course/:slug' element={<Course />} />
         <Route path='/learn/:slug' element={<Learn />} />
         <Route path='/dashboard' element={<Dashboard />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/register' element={<Register />} />
+        <Route path='/auth' element={<Auth />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </BrowserRouter>
