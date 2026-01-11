@@ -1,5 +1,26 @@
 import { Schema, model } from "mongoose";
 
+const chapterSchema = new Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+      trim: true,
+      maxlength: 200,
+    },
+
+    timestamp: {
+      type: String,
+      required: true,
+    },
+
+    duration: {
+      type: String,
+      required: true,
+    },
+  },
+);
+
 const courseSchema = new Schema(
   {
     title: {
@@ -52,6 +73,11 @@ const courseSchema = new Schema(
 
     duration: {
       type: String,
+    },
+
+    chapters: {
+      type: [chapterSchema],
+      default: [],
     },
   },
   {
