@@ -1,6 +1,33 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@font-face {
+  font-family: "Oswald";
+  src: url("./assets/fonts/Oswald/Oswald-Regular.ttf");
+}
+
+@font-face {
+  font-family: "Jomhuria";
+  src: url("./assets/fonts/Jomhuria/Jomhuria-Regular.ttf");
+}
+
+@font-face {
+  font-family: "Jomolhari";
+  src: url("./assets/fonts/Jomolhari/Jomolhari-Regular.ttf");
+}
+
+.font-oswald {
+  font-family: "Oswald";
+}
+
+.font-jomhuria {
+  font-family: "Jomhuria";
+}
+
+.font-jomolhari {
+  font-family: "Jomolhari";
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
