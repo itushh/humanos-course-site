@@ -25,71 +25,73 @@ const Auth = () => {
       <header className="flex justify-center w-full py-10 fixed">
         <img src="/logo.svg" className="w-32" />
       </header>
-      <main className="flex flex-1 items-center px-120">
-        {/* Left */}
-        <div
-          className="overflow-hidden text-nowrap ease-in-out"
-          style={{
-            transitionDuration: `${ANIMATION_DURATIONS_SEC}s`,
-            width: visibleBlock === "left" ? "100%" : "0px",
-          }}
-        >
-          <h2 className="font-jomolhari text-lg">Welcome Back!</h2>
-          <h2 className="font-jomhuria text-3xl opacity-80 mt-2">
-            Find your inner
-          </h2>
-          <h2 className="font-jomhuria text-9xl -mt-7">PEACE</h2>
-          <LoginForm />
-          <p className="font-jomolhari mt-5 text-center">
-            Don't have an account?{" "}
-            <span
-              className="font-bold border-b cursor-pointer"
-              onClick={() => {
-                clearError();
-                setVisibleBlock("right");
-              }}
-            >
-              {" "}
-              Sign Up
-            </span>
-          </p>
-        </div>
-
-        {/* Middle */}
-        <div className="w-5xl relative">
-          <div className="absolute w-full flex justify-center -z-20">
-            <img className="w-80" src={Cloud} />
+      <main className="px-120 flex flex-1 items-center">
+        <div className="w-full bg-white/2 backdrop-blur-xs flex p-20 rounded-md items-center">
+          {/* Left */}
+          <div
+            className="overflow-hidden text-nowrap ease-in-out"
+            style={{
+              transitionDuration: `${ANIMATION_DURATIONS_SEC}s`,
+              width: visibleBlock === "left" ? "100%" : "0px",
+            }}
+          >
+            <h2 className="font-jomolhari text-lg">Welcome Back!</h2>
+            <h2 className="font-jomhuria text-3xl opacity-80 mt-2">
+              Find your inner
+            </h2>
+            <h2 className="font-jomhuria text-9xl -mt-7">PEACE</h2>
+            <LoginForm />
+            <p className="font-jomolhari mt-5 text-center">
+              Don't have an account?{" "}
+              <span
+                className="font-bold border-b cursor-pointer"
+                onClick={() => {
+                  clearError();
+                  setVisibleBlock("right");
+                }}
+              >
+                {" "}
+                Sign Up
+              </span>
+            </p>
           </div>
-          <img className="w-full" src={Monk} />
-        </div>
 
-        {/* Right */}
-        <div
-          className="overflow-hidden text-nowrap ease-in-out"
-          style={{
-            transitionDuration: `${ANIMATION_DURATIONS_SEC}s`,
-            width: visibleBlock === "right" ? "100%" : "0px",
-          }}
-        >
-          <h2 className="font-jomolhari text-lg">Welcome!</h2>
-          <h2 className="font-jomhuria text-3xl opacity-80 mt-2">
-            Find your inner
-          </h2>
-          <h2 className="font-jomhuria text-9xl -mt-7">PEACE</h2>
-          <RegistrationForm />
-          <p className="font-jomolhari mt-5 text-center">
-            Already have an account?{" "}
-            <span
-              className="font-bold border-b cursor-pointer"
-              onClick={() => {
-                clearError();
-                setVisibleBlock("left");
-              }}
-            >
-              {" "}
-              Log In
-            </span>
-          </p>
+          {/* Middle */}
+          <div className="w-5xl relative">
+            <div className="absolute w-full flex justify-center -z-20">
+              <img className="w-80" src={Cloud} />
+            </div>
+            <img className="w-full" src={Monk} />
+          </div>
+
+          {/* Right */}
+          <div
+            className="overflow-hidden text-nowrap ease-in-out"
+            style={{
+              transitionDuration: `${ANIMATION_DURATIONS_SEC}s`,
+              width: visibleBlock === "right" ? "100%" : "0px",
+            }}
+          >
+            <h2 className="font-jomolhari text-lg">Welcome!</h2>
+            <h2 className="font-jomhuria text-3xl opacity-80 mt-2">
+              Find your inner
+            </h2>
+            <h2 className="font-jomhuria text-9xl -mt-7">PEACE</h2>
+            <RegistrationForm />
+            <p className="font-jomolhari mt-5 text-center">
+              Already have an account?{" "}
+              <span
+                className="font-bold border-b cursor-pointer"
+                onClick={() => {
+                  clearError();
+                  setVisibleBlock("left");
+                }}
+              >
+                {" "}
+                Log In
+              </span>
+            </p>
+          </div>
         </div>
       </main>
     </div>
@@ -198,8 +200,11 @@ const RegistrationForm = () => {
           placeholder="Password"
           autoComplete="new-password"
           className="font-jomolhari border-0 outline-0 w-full"
-          onChange={(e) => 
-            setRegistrationData({ ...registrationData, password: e.target.value })
+          onChange={(e) =>
+            setRegistrationData({
+              ...registrationData,
+              password: e.target.value,
+            })
           }
         />
       </div>
