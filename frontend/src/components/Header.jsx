@@ -1,3 +1,4 @@
+import { useAuthStore } from "@/store/authStore";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -29,6 +30,8 @@ const menus = [
 ];
 
 const Header = () => {
+  const { isAuthenticated } = useAuthStore();
+
   return (
     <div className="sticky w-full top-0 flex justify-between px-100 py-7 bg-white/2 backdrop-blur-xs items-center z-50">
       <img src="/logo.svg" />
@@ -42,7 +45,7 @@ const Header = () => {
         </div>
         <div className="text-3xl">|</div>
         <div className="flex items-center cursor-pointer">
-          <Link to="/auth">Login</Link>
+          {isAuthenticated ? <Link to="/account">Account</Link> :<Link to="/auth">Login</Link>}
         </div>
       </div>
     </div>

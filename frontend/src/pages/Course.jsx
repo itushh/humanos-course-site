@@ -3,19 +3,42 @@ import ChaptersList from "@/components/ChaptersList";
 import Header from "@/components/Header";
 import Rating from "@/components/Rating";
 import { SparklesCore } from "@/components/ui/sparkles";
+import { useAuthStore } from "@/store/authStore";
 import { useCourseStore } from "@/store/courseStore";
 import { Loader } from "lucide-react";
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const CourseData = () => {
-  const { isFetchingCourseData, courseData, fetchCourse, error } =
-    useCourseStore();
+  const {
+    isFetchingCourseData,
+    courseData,
+    fetchCourse,
+    error,
+    isEnrolling,
+    isEnrolled,
+    enrollInCourse,
+    errorEnrolling,
+    clearEnrollmentError,
+  } = useCourseStore();
+  const { isAuthenticated } = useAuthStore();
   const { slug } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchCourse(slug);
   }, [fetchCourse, slug]);
+
+  useEffect(() => {
+    if (isEnrolled) {
+      navigate(`/learn/${slug}`, { replace: true });
+    }
+  }, [isEnrolled, navigate, slug]);
+
+  const handleEntrollment = () => {
+    clearEnrollmentError();
+    enrollInCourse(slug);
+  };
 
   if (courseData) {
     return (
@@ -24,7 +47,10 @@ const CourseData = () => {
         <div className="bg-white/2 mt-5 rounded-md backdrop-blur-xs p-15 flex gap-10">
           <div className="w-120">
             <div className="w-full aspect-video bg-accent rounded-md">
-              <img src={courseData.thumbnail} className="size-full object-cover rounded-md" />
+              <img
+                src={courseData.thumbnail}
+                className="size-full object-cover rounded-md"
+              />
             </div>
           </div>
           <div className="flex-1">
@@ -42,9 +68,27 @@ const CourseData = () => {
               <div className="text-lg">|</div>
               <div className="">Beginner</div>
             </div>
-            <button className="border-2 font-jomolhari bg-green-700 px-10 py-2 rounded text-center mt-5">
-              Enroll Now
-            </button>
+            {errorEnrolling && (
+              <p className="text-rose-500 pt-5">{errorEnrolling}</p>
+            )}
+            {!isAuthenticated ? (
+              <Link to="/auth">
+                <button className="border-2 font-jomolhari bg-green-700 px-10 py-2 rounded text-center mt-5 cursor-pointer">
+                  Login to Enroll
+                </button>
+              </Link>
+            ) : (
+              <button
+                className="border-2 font-jomolhari bg-green-700 px-10 py-2 rounded text-center mt-5 cursor-pointer"
+                onClick={handleEntrollment}
+              >
+                {isEnrolling ? (
+                  <Loader className="animate-spin" />
+                ) : (
+                  "Enroll Now"
+                )}
+              </button>
+            )}
           </div>
         </div>
 

@@ -18,7 +18,7 @@ export const useAuthStore = create((set) => ({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(credentials),
-        credentials: "include"
+        credentials: "include",
       });
 
       if (!res.ok) {
@@ -80,7 +80,7 @@ export const useAuthStore = create((set) => ({
 
       const res = await fetch(`${BASE_URL}/logout`, {
         method: "POST",
-        credentials: "include"
+        credentials: "include",
       });
 
       if (!res.ok) {
@@ -96,6 +96,35 @@ export const useAuthStore = create((set) => ({
     } catch (err) {
       set({
         error: err.message || "Something went wrong",
+        isAuthenticated: false,
+        isLoading: false,
+      });
+    }
+  },
+
+  checkAuth: async () => {
+    try {
+      set({ isLoading: true });
+
+      const res = await fetch(`${BASE_URL}/check`, {
+        method: "POST",
+        credentials: "include", 
+      });
+
+      if (!res.ok) {
+        throw new Error("Not authenticated");
+      }
+
+      const data = await res.json();
+
+      set({
+        user: data.user,
+        isAuthenticated: true,
+        isLoading: false,
+      });
+    } catch {
+      set({
+        user: null,
         isAuthenticated: false,
         isLoading: false,
       });
