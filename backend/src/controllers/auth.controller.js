@@ -49,11 +49,9 @@ export const register = async (req, res) => {
     });
 
     // 4. Generate JWT
-    const token = jwt.sign(
-      { userId: user._id },
-      process.env.JWT_SECRET,
-      { expiresIn: "7d" }
-    );
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
 
     // 5. Set auth cookie
     res.cookie("token", token, {
@@ -75,7 +73,6 @@ export const register = async (req, res) => {
         is_active: user.is_active,
       },
     });
-
   } catch (error) {
     console.error("error in register.auth.controller.js : ", error);
 
@@ -135,11 +132,9 @@ export const login = async (req, res) => {
     }
 
     // 5. Generate JWT
-    const token = jwt.sign(
-      { userId: user._id },
-      process.env.JWT_SECRET,
-      { expiresIn: "7d" }
-    );
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
 
     // 6. Set auth cookie
     res.cookie("token", token, {
@@ -161,7 +156,6 @@ export const login = async (req, res) => {
         is_active: user.is_active,
       },
     });
-
   } catch (error) {
     console.error("error in login.auth.controller.js : ", error);
 
@@ -171,7 +165,6 @@ export const login = async (req, res) => {
     });
   }
 };
-
 
 /* --------------------- LOGOUT ------------------------ */
 
@@ -187,7 +180,6 @@ export const logout = async (req, res) => {
       success: true,
       message: "Logout successful",
     });
-
   } catch (error) {
     console.error("error in logout.auth.controller.js : ", error);
 
@@ -196,4 +188,13 @@ export const logout = async (req, res) => {
       message: "Something Went Wrong!",
     });
   }
+};
+
+/* --------------------- LOGOUT ------------------------ */
+
+export const check = (req, res) => {
+  return res.status(200).json({
+    success: true,
+    message: "Authenticated",
+  });
 };
