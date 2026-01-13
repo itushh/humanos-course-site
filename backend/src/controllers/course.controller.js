@@ -147,8 +147,7 @@ export const accessCourse = async (req, res) => {
     }
 
     // 4. Get client IP (important for token restriction)
-    const clientIp =
-      req.headers["x-forwarded-for"]?.split(",")[0] || req.ip;
+    const clientIp = req.headers["x-forwarded-for"]?.split(",")[0] || req.ip;
 
     // 5. Generate signed Cloudinary HLS URL (1 hour)
     const accessUrl = generateSignedUrl(
@@ -163,11 +162,47 @@ export const accessCourse = async (req, res) => {
       data: {
         title: course.title,
         access_url: accessUrl,
-        expires_in: 3600
+        expires_in: 3600,
       },
     });
   } catch (error) {
     console.error("error in accessCourse.controller.js :", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
+  }
+};
+
+export const getEnrolledCourses = async (req, res) => {
+  try {
+    const userId = req.user;
+
+    // 1. Transform response
+    const enrolledCourses = user.courses_enrolled
+      .filter((c) => c.courseId)
+      .map((c) => ({
+        _id: c.courseId._id,
+        title: c.courseId.title,
+        slug: c.courseId.slug,
+        thumbnail: c.courseId.thumbnail,
+        price: c.courseId.price,
+        duration: c.courseId.duration,
+        tags: c.courseId.tags,
+        description: c.courseId.description,
+        enrollment_status: c.status,
+        payment_status: c.payment_status,
+      }));
+
+    // 2. Response
+    return res.status(200).json({
+      success: true,
+      count: enrolledCourses.length,
+      courses: enrolledCourses,
+    });
+  } catch (error) {
+    console.error("error in course.controller.js >> getEnrolledCourses :", error);
 
     return res.status(500).json({
       success: false,
