@@ -1,15 +1,22 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Lock, Mail, User } from "lucide-react";
 import Monk from "../assets/monk.png";
 import Cloud from "../assets/cloud.png";
 import { SparklesCore } from "@/components/ui/sparkles";
 import { useAuthStore } from "@/store/authStore";
+import { Navigate } from "react-router-dom";
 
 const ANIMATION_DURATIONS_SEC = 0.5;
 
 const Auth = () => {
   const [visibleBlock, setVisibleBlock] = useState("left");
-  const { clearError } = useAuthStore();
+  const { isAuthenticated, clearError } = useAuthStore();
+
+  if(isAuthenticated) {
+    return (
+      <Navigate to="/" />
+    )
+  }
 
   return (
     <div className="flex flex-col h-dvh">

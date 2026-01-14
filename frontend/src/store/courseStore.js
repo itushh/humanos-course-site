@@ -9,6 +9,9 @@ export const useCourseStore = create((set) => ({
   isEnrolling: false,
   errorEnrolling: null,
   isEnrolled: false,
+  isAccessingCourse: false,
+  errorAccessing: null,
+  courseContent: null,
 
   fetchCourse: async (url) => {
     set({ isFetchingCourseData: true });
@@ -22,7 +25,7 @@ export const useCourseStore = create((set) => ({
   },
 
   clearEnrollmentError: () => {
-    set({ errorEnrolling: false })
+    set({ errorEnrolling: false });
   },
 
   enrollInCourse: async (url) => {
@@ -36,12 +39,34 @@ export const useCourseStore = create((set) => ({
       if (!res.ok) {
         set({ isEnrolling: false, errorEnrolling: data.message });
       } else {
-        set({ isEnrolling: false, isEnrolled: true })
+        set({ isEnrolling: false, isEnrolled: true });
       }
-
     } catch (error) {
       console.log(error);
       set({ error: "Somthing went wrong", isEnrolling: false });
+    }
+  },
+
+  accessCourse: async (url) => {
+    set({ isAccessingCourse: true, errorAccessing: null });
+    try {
+      const res = await fetch(`${BASE_URL}/access/${url}`, {
+        credentials: "include",
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        set({ isAccessingCourse: false, errorAccessing: data.message });
+        return;
+      }
+
+      set({ isAccessingCourse: false, courseContent: data.data });
+    } catch {
+      set({
+        isAccessingCourse: false,
+        errorAccessing: "Something went wrong!",
+      });
     }
   },
 }));
