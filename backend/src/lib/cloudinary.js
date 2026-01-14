@@ -26,21 +26,32 @@ cloudinary.config({
 });
 
 
-const generateSignedUrl = (publicId, expiresInSeconds, clientIp) => {
+const generateSignedUrl = (publicId, expiresInSeconds = 300) => {
+  const isProd = process.env.NODE_ENV === "production";
+
+  // DEV: public MP4 (fast, no auth, no HLS headaches)
+  if (!isProd) {
+    return cloudinary.url(publicId, {
+      resource_type: "video",
+      secure: true,
+    });
+  }
+
+  // PROD: authenticated HLS
   const now = Math.floor(Date.now() / 1000);
 
   return cloudinary.url(publicId, {
     resource_type: "video",
     type: "authenticated",
+    format: "m3u8",
+    streaming_profile: "auto",
     sign_url: true,
-    format: "m3u8", //HLS
-    streaming_profile: "auto", //adaptive bitrates
+    secure: true,
 
     auth_token: {
       key: process.env.CLOUDINARY_AUTH_TOKEN_SECRET,
-      start_time: now,
+      start_time: now - 60,
       expiration: now + expiresInSeconds,
-      ip: clientIp,
     },
   });
 };

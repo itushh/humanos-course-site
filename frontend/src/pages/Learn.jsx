@@ -27,7 +27,8 @@ const CourseContent = () => {
         <div className="w-full aspect-video bg-slate-800 rounded-md">
           <video
             src={courseContent.access_url}
-            className="size-full object-cover"
+            controls
+            className="size-full object-cover rounded-md"
           ></video>
         </div>
         <h1 className="mt-2 font-jomolhari text-2xl">{courseContent.title}</h1>
