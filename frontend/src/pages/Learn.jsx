@@ -22,16 +22,16 @@ const CourseContent = () => {
   if (!courseContent) return;
 
   return (
-    <div className="flex p-10 rounded-md gap-10 bg-white/2 backdrop-blur-xs h-full">
+    <div className="flex p-10 rounded-4xl gap-10 bg-primary/5 backdrop-blur-xs h-full shadow-md">
       <div className="w-3/4">
-        <div className="w-full aspect-video bg-slate-800 rounded-md">
+        <div className="w-full aspect-video">
           <video
             src={courseContent.access_url}
             controls
-            className="size-full object-cover rounded-md"
+            className="size-full object-cover rounded-4xl"
           ></video>
         </div>
-        <h1 className="mt-2 font-jomolhari text-2xl">{courseContent.title}</h1>
+        <h1 className="mt-2 font-jomolhari text-xl text-center text-primary/80">{courseContent.title} : Chapter 5 (Introduction)</h1>
       </div>
       <div className="space-y-3 h-full flex-1 pr-5 overflow-auto">
         <Chapter />
@@ -73,7 +73,7 @@ const Learn = () => {
   }, [accessCourse, slug]);
 
   return (
-    <div className="h-dvh flex flex-col">
+    <div className="">
       <SparklesCore
         id="tsparticlesfullpage"
         background="transparent"
@@ -83,22 +83,26 @@ const Learn = () => {
         className="w-full absolute -z-40"
         particleColor="#FFFFFF"
       />
-      <Header />
-      <main className="px-40 py-10 flex-1 overflow-auto">
-        <div className="px-60">
-          {isAccessing && (
-            <div className="flex justify-center bg-white/2 backdrop-blur-xs py-10 rounded-md">
-              <Loader className="animate-spin" />
-            </div>
-          )}
-          {errorAccessing && (
-            <div className="flex justify-center bg-white/2 backdrop-blur-xs py-10 rounded-md">
-              {errorAccessing}
-            </div>
-          )}
+      <div className="flex flex-col h-dvh max-w-8xl mx-auto py-10">
+        <div className="px-100">
+          <Header />
         </div>
-        {!errorAccessing && <CourseContent />}
-      </main>
+        <main className="flex-1 px-60 overflow-y-auto mt-10">
+          <div className="px-60">
+            {isAccessing && (
+              <div className="flex justify-center bg-white/2 backdrop-blur-xs py-10 rounded-4xl showdow-md">
+                <Loader className="animate-spin" />
+              </div>
+            )}
+            {errorAccessing && (
+              <div className="flex justify-center bg-white/2 backdrop-blur-xs py-10 rounded-4xl showdow-md">
+                {errorAccessing}
+              </div>
+            )}
+          </div>
+          {!errorAccessing && <CourseContent />}
+        </main>
+      </div>
     </div>
   );
 };

@@ -3,7 +3,7 @@ import React from "react";
 const ChaptersList = ({ chapters }) => {
   return (
     <div>
-      <ol className="relative border-s border-default">
+      <ol className="relative border-l border-l-black/10 dark:border-border">
         {chapters.map((item, index) => (
           <Chapter index={index} title={item.title} duration={item.duration} />
         ))}
@@ -19,7 +19,7 @@ const Chapter = ({ index, title, duration }) => {
       <time className="text-sm font-normal leading-none text-primary/70">
         Chapter {index + 1}
       </time>
-      <h3 className="text-lg font-semibold text-primary my-2">{title}</h3>
+      <h3 className="text-lg text-primary my-2">{title}</h3>
       <p className="text-primary/70 border text-xs px-1 w-fit rounded">{duration}</p>
     </li>
   );

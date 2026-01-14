@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -6,8 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>frontend</title>
   </head>
-  <body class="dark">
+  <body class="bg-slate-100 dark:bg-background">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+    const applyTheme = (e) => {
+      if (e.matches) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+    };
+
+    applyTheme(mediaQuery);
+
+    mediaQuery.addEventListener("change", applyTheme);
+  </script>
   </body>
 </html>
