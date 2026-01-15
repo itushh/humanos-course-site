@@ -5,7 +5,7 @@ const ChaptersList = ({ chapters }) => {
     <div>
       <ol className="relative border-l border-l-black/10 dark:border-border">
         {chapters.map((item, index) => (
-          <Chapter index={index} title={item.title} duration={item.duration} />
+          <Chapter key={index} title={item.title} duration={item.duration} />
         ))}
       </ol>
     </div>

@@ -27,7 +27,7 @@ const Auth = () => {
         maxSize={1.4}
         particleDensity={25}
         className="w-full h-full absolute -z-40"
-        particleColor="#FFFFFF"
+        /* particleColor="#FFFFFF" */
       />
       <header className="flex justify-center w-full py-10 fixed">
         <img src="/logo.svg" className="w-32" />

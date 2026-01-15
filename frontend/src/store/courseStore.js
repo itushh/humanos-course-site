@@ -22,6 +22,7 @@ export const useCourseStore = create((set) => ({
     }
     const data = await res.json();
     set({ courseData: data.course, isFetchingCourseData: false });
+    console.log(data.course)
   },
 
   clearEnrollmentError: () => {

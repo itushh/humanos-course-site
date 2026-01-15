@@ -1,4 +1,4 @@
-"use client";;
+"use client";
 import React, { useId } from "react";
 import { useEffect, useState } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
@@ -17,7 +17,24 @@ export const SparklesCore = (props) => {
     particleColor,
     particleDensity,
   } = props;
+  const [defaultParticleColor, setDefaultParticleColor] = useState("#FFFFFF");
   const [init, setInit] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+    const apply = (e) => {
+      if (e.matches) {
+        setDefaultParticleColor("#FFFFFF")
+      } else {
+        setDefaultParticleColor("#000000")
+      }
+    };
+
+    apply(mediaQuery);
+
+    mediaQuery.addEventListener("change", apply);
+  }, []);
   useEffect(() => {
     initParticlesEngine(async (engine) => {
       await loadSlim(engine);
@@ -110,7 +127,7 @@ export const SparklesCore = (props) => {
                 },
               },
               color: {
-                value: particleColor || "#ffffff",
+                value: particleColor || defaultParticleColor || "#ffffff",
                 animation: {
                   h: {
                     count: 0,
@@ -414,7 +431,8 @@ export const SparklesCore = (props) => {
               },
             },
             detectRetina: true,
-          }} />
+          }}
+        />
       )}
     </motion.div>
   );
