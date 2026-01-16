@@ -5,51 +5,67 @@ import Cloud from "../assets/cloud.png";
 import { SparklesCore } from "@/components/ui/sparkles";
 import { useAuthStore } from "@/store/authStore";
 import { Navigate } from "react-router-dom";
+import Header from "@/components/Header";
 
-const ANIMATION_DURATIONS_SEC = 0.5;
+const TRANSITION_DURATION_MS = 300;
 
 const Auth = () => {
-  const [visibleBlock, setVisibleBlock] = useState("left");
-  const { isAuthenticated, clearError } = useAuthStore();
+  const { isAuthenticated } = useAuthStore();
 
-  if(isAuthenticated) {
-    return (
-      <Navigate to="/" />
-    )
+  if (isAuthenticated) {
+    return <Navigate to="/" />;
   }
 
   return (
-    <div className="flex flex-col h-dvh">
+    <div className="">
       <SparklesCore
         id="tsparticlesfullpage"
         background="transparent"
         minSize={0.6}
         maxSize={1.4}
-        particleDensity={25}
+        particleDensity={10}
         className="w-full h-full absolute -z-40"
-        /* particleColor="#FFFFFF" */
       />
-      <header className="flex justify-center w-full py-10 fixed">
-        <img src="/logo.svg" className="w-32" />
-      </header>
-      <main className="px-120 flex flex-1 items-center">
-        <div className="w-full bg-white/2 backdrop-blur-xs flex p-20 rounded-md items-center">
-          {/* Left */}
-          <div
-            className="overflow-hidden text-nowrap ease-in-out"
-            style={{
-              transitionDuration: `${ANIMATION_DURATIONS_SEC}s`,
-              width: visibleBlock === "left" ? "100%" : "0px",
-            }}
-          >
+      <div className="py-10 px-5 xl:px-0 flex gap-10 flex-col h-dvh max-w-7xl mx-auto">
+        <Header />
+        <Main />
+      </div>
+    </div>
+  );
+};
+
+const Main = () => {
+  const [visibleBlock, setVisibleBlock] = useState("left");
+  const { clearError } = useAuthStore();
+
+  return (
+    <main className="flex flex-1 items-center xl:px-20">
+      <div className="w-full bg-primary/5 backdrop-blur-xs rounded-4xl border overflow-hidden">
+        {/* Sliding strip */}
+        <div
+          className="flex transition-transform ease-in-out w-[200%] lg:w-[150%]"
+          style={{
+            transitionDuration: `${TRANSITION_DURATION_MS}ms`,
+            transform:
+              visibleBlock === "left"
+                ? "translateX(0%)"
+                : window.innerWidth >= 1024
+                ? "translateX(-33.3333%)"
+                : "translateX(-50%)",
+          }}
+        >
+          {/* Login */}
+          <div className="w-1/2 lg:w-1/3 flex flex-col justify-center p-20">
             <h2 className="font-jomolhari text-lg">Welcome Back!</h2>
             <h2 className="font-jomhuria text-3xl opacity-80 mt-2">
               Find your inner
             </h2>
             <h2 className="font-jomhuria text-9xl -mt-7">PEACE</h2>
+
             <LoginForm />
+
             <p className="font-jomolhari mt-5 text-center">
-              Don't have an account?{" "}
+              Don&apos;t have an account?{" "}
               <span
                 className="font-bold border-b cursor-pointer"
                 onClick={() => {
@@ -57,34 +73,31 @@ const Auth = () => {
                   setVisibleBlock("right");
                 }}
               >
-                {" "}
                 Sign Up
               </span>
             </p>
           </div>
 
-          {/* Middle */}
-          <div className="w-5xl relative">
-            <div className="absolute w-full flex justify-center -z-20">
-              <img className="w-80" src={Cloud} />
+          {/* Monk */}
+          <div className="w-1/3 justify-center items-center border-x hidden lg:flex">
+            <div className="relative">
+              <div className="absolute w-full flex justify-center -z-20">
+                <img className="w-80" src={Cloud} />
+              </div>
+              <img className="w-full" src={Monk} />
             </div>
-            <img className="w-full" src={Monk} />
           </div>
 
-          {/* Right */}
-          <div
-            className="overflow-hidden text-nowrap ease-in-out"
-            style={{
-              transitionDuration: `${ANIMATION_DURATIONS_SEC}s`,
-              width: visibleBlock === "right" ? "100%" : "0px",
-            }}
-          >
+          {/* Register */}
+          <div className="w-1/2 lg:w-1/3 p-20 flex flex-col justify-center">
             <h2 className="font-jomolhari text-lg">Welcome!</h2>
             <h2 className="font-jomhuria text-3xl opacity-80 mt-2">
               Find your inner
             </h2>
             <h2 className="font-jomhuria text-9xl -mt-7">PEACE</h2>
+
             <RegistrationForm />
+
             <p className="font-jomolhari mt-5 text-center">
               Already have an account?{" "}
               <span
@@ -94,14 +107,13 @@ const Auth = () => {
                   setVisibleBlock("left");
                 }}
               >
-                {" "}
                 Log In
               </span>
             </p>
           </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
   );
 };
 
@@ -117,7 +129,7 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="border-b-2 pb-5">
+    <div className="border-b-2 pb-5 -mt-5">
       {error && <p className="text-red-500 text-center">{error}</p>}
       <div className="border-2 flex gap-3 items-center px-3 py-2 rounded-xs mt-3">
         <Mail size={18} />
@@ -171,7 +183,7 @@ const RegistrationForm = () => {
   };
 
   return (
-    <div className="border-b-2 pb-5">
+    <div className="border-b-2 pb-5 -mt-5">
       {error && <p className="text-red-500 text-center">{error}</p>}
       <div className="border-2 flex gap-3 items-center px-3 py-2 rounded-xs mt-3">
         <User size={18} />

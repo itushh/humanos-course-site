@@ -42,7 +42,7 @@ const CourseData = () => {
 
   if (!courseData) {
     return (
-      <div className="bg-primary/5 mt-5 rounded-4xl backdrop-blur-sm p-15 flex gap-10 justify-center border">
+      <div className="bg-primary/5 mt-5 rounded-4xl backdrop-blur-xs p-5 sm:p-15 flex gap-10 justify-center border">
         {isFetchingCourseData && <Loader className="animate-spin" />}
         {error && <span className="text-rose-500">{error}</span>}
       </div>
@@ -54,7 +54,7 @@ const CourseData = () => {
       {/* basic details */}
       <div className="mt-5 flex-col lg:flex-row flex gap-2">
         {/* thumbnai */}
-        <div className="w-full lg:w-140 bg-primary/5 backdrop-blur-sm p-10 border shadow-md rounded-t-4xl lg:rounded-none lg:rounded-tl-4xl">
+        <div className="w-full lg:w-140 bg-primary/5 backdrop-blur-xs p-5 sm:p-10 border shadow-md rounded-t-4xl lg:rounded-none lg:rounded-tl-4xl">
           <div className="w-full aspect-video relative overflow-hidden after:absolute after:inset-0 after:pointer-events-none after:bg-[radial-gradient(circle_at_center,transparent_45%,rgba(250,250, 250, 0.5)_100%)] dark:after:bg-[radial-gradient(circle_at_center,transparent_45%,rgba(0,0,0,0.5)_100%)] rounded-lg">
             <img
               src={courseData.thumbnail}
@@ -64,7 +64,7 @@ const CourseData = () => {
         </div>
 
         {/* details */}
-        <div className="flex-1 bg-primary/5 backdrop-blur-sm p-10 border shadow-md lg:rounded-tr-4xl">
+        <div className="flex-1 bg-primary/5 backdrop-blur-xs p-5 sm:p-10 border shadow-md lg:rounded-tr-4xl">
           <h1 className="font-jomolhari text-2xl text-primary">
             {courseData.title}
           </h1>
@@ -103,7 +103,7 @@ const CourseData = () => {
       {/* more details */}
       <div className="flex flex-col lg:flex-row gap-2 mt-2">
         {/* chapters */}
-        <div className="p-10 flex-1 bg-primary/5 backdrop-blur-sm lg:rounded-bl-4xl border shadow-md">
+        <div className="flex-1 bg-primary/5 backdrop-blur-xs p-5 sm:p-10 sm:lg:rounded-bl-4xl border shadow-md">
           <ChaptersList
             chapters={[
               { title: "Introduction", duration: "10:48" },
@@ -114,7 +114,7 @@ const CourseData = () => {
           />
         </div>
         {/* What did you learn */}
-        <div className="p-10 lg:w-100 rounded-b-4xl lg:rounded-none lg:rounded-br-4xl bg-primary/5 backdrop-blur-sm border shadow-md">
+        <div className="lg:w-100 rounded-b-4xl lg:rounded-none lg:rounded-br-4xl bg-primary/5 backdrop-blur-xs p-5 sm:p-10 sm:border shadow-md">
           <h2 className="font-jomolhari text-lg">What you'll learn</h2>
           <p className="text-primary/70 font-jomolhari mt-2">
             You will learn how to meditate through guided sessions with one on
@@ -139,7 +139,6 @@ const Course = () => {
         maxSize={1.4}
         particleDensity={10}
         className="w-full absolute top-0 left-0 -z-40"
-        particleColor="#FFFFFF"
       />
       <div className="max-w-7xl mx-auto py-10">
         <Header />
@@ -147,7 +146,7 @@ const Course = () => {
           <Breadcrumb
             pages={[
               { text: "Home", link: "/" },
-              { text: slug, link: "/" },
+              { text: slug, link: "" },
             ]}
           />
           <CourseData />

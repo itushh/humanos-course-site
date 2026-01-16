@@ -22,8 +22,8 @@ const CourseContent = () => {
   if (!courseContent) return;
 
   return (
-    <div className="flex p-10 rounded-4xl gap-10 bg-primary/5 backdrop-blur-xs h-full shadow-md">
-      <div className="w-3/4">
+    <div className="flex flex-col 2xl:flex-row p-5 sm:p-10 rounded-4xl gap-10 bg-primary/5 backdrop-blur-xs 2xl:h-full overflow-auto shadow-md">
+      <div className="w-full 2xl:w-3/4">
         <div className="w-full aspect-video">
           <video
             src={courseContent.access_url}
@@ -33,7 +33,7 @@ const CourseContent = () => {
         </div>
         <h1 className="mt-2 font-jomolhari text-xl text-center text-primary/80">{courseContent.title} : Chapter 5 (Introduction)</h1>
       </div>
-      <div className="space-y-3 h-full flex-1 pr-5 overflow-auto">
+      <div className="space-y-3 h-full 2xl:flex-1 2xl:pr-5 overflow-auto">
         <Chapter />
         <Chapter />
         <Chapter />
@@ -73,7 +73,7 @@ const Learn = () => {
   }, [accessCourse, slug]);
 
   return (
-    <div className="">
+    <div>
       <SparklesCore
         id="tsparticlesfullpage"
         background="transparent"
@@ -81,13 +81,12 @@ const Learn = () => {
         maxSize={1.4}
         particleDensity={5}
         className="w-full absolute -z-40"
-        particleColor="#FFFFFF"
       />
-      <div className="flex flex-col h-dvh max-w-8xl mx-auto py-10">
-        <div className="px-100">
+      <div className="flex flex-col h-dvh py-10">
+        <div className="max-w-7xl w-full px-5 xl:px-0 mx-auto">
           <Header />
         </div>
-        <main className="flex-1 px-60 overflow-y-auto mt-10">
+        <main className="flex-1 max-w-400 w-full px-5 2xl:px-0 mx-auto overflow-y-auto mt-10">
           <div className="px-60">
             {isAccessing && (
               <div className="flex justify-center bg-white/2 backdrop-blur-xs py-10 rounded-4xl showdow-md">

@@ -37,7 +37,9 @@ const Header = () => {
   return (
     <>
       <div className="sticky w-full rounded-full shadow-md top-10 flex flex-row sm:flex-col gap-3 lg:flex-row justify-between px-10 sm:px-20 border py-7 bg-primary/5 text-primary/80 backdrop-blur-xs items-center z-50">
-        <img className="invert-100 dark:invert-0 w-32" src="/logo.svg" />
+        <Link to="/">
+          <img className="invert-100 dark:invert-0 w-32" src="/logo.svg" />
+        </Link>
         <div className="flex gap-3 font-jomolhari">
           <div className="hidden sm:flex gap-3 items-center">
             {menus.map((item, index) => (
@@ -54,7 +56,7 @@ const Header = () => {
           </div>
           <div className="flex items-center cursor-pointer border-l pl-3">
             {isAuthenticated ? (
-              <Link to="/account">Account</Link>
+              <Link to="/dashboard">Account</Link>
             ) : (
               <Link to="/auth">Login</Link>
             )}

@@ -3,12 +3,18 @@ import { create } from "zustand";
 const BASE_URL = "http://localhost:3001/api/course";
 
 export const useCourseStore = create((set) => ({
+  allCoursesData: null,
+  errorFetchingAllCourses: null,
+  isFetchingAllCourses: false,
+
   courseData: null,
   error: null,
   isFetchingCourseData: false,
-  isEnrolling: false,
+  
   errorEnrolling: null,
+  isEnrolling: false,
   isEnrolled: false,
+
   isAccessingCourse: false,
   errorAccessing: null,
   courseContent: null,

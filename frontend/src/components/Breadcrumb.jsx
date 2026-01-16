@@ -8,7 +8,7 @@ const Breadcrumb = ({ pages }) => {
       {pages.map((item, index) => (
         <Fragment key={index}>
           <div className="font-jomolhari hover:text-primary">
-            <Link to={item.Link}>{item.text}</Link>{" "}
+            <Link to={item.link}>{item.text}</Link>{" "}
           </div>
           {index !== pages.length - 1 && <ChevronRight size={15} className="mt-1" />}
         </Fragment>
