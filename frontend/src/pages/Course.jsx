@@ -72,12 +72,12 @@ const CourseData = () => {
             {courseData.description}
           </p>
           <div>
-            <Rating />
+            <Rating rating={courseData.rating} />
           </div>
           <div className="border border-black/10 dark:border-border flex items-center w-fit gap-2 px-3 mt-3 rounded-md text-sm">
-            <div className="py-1">Program Duration: 8 Weeks</div>
+            <div className="py-1">Duration: {courseData.duration}</div>
             <div className="pl-2 border-l py-1 border-black/10 dark:border-border">
-              Beginner
+              {courseData.difficulty}
             </div>
           </div>
           {errorEnrolling && (
@@ -104,22 +104,36 @@ const CourseData = () => {
       <div className="flex flex-col lg:flex-row gap-2 mt-2">
         {/* chapters */}
         <div className="flex-1 bg-primary/5 backdrop-blur-xs p-5 sm:p-10 sm:lg:rounded-bl-4xl border shadow-md">
-          <ChaptersList
-            chapters={[
-              { title: "Introduction", duration: "10:48" },
-              { title: "Types of meditation", duration: "00:48" },
-              { title: "Benifites of meditation", duration: "00:48" },
-              { title: "When to do meditation", duration: "00:48" },
-            ]}
-          />
+          <ChaptersList chapters={courseData.chapters} />
         </div>
         {/* What did you learn */}
         <div className="lg:w-100 rounded-b-4xl lg:rounded-none lg:rounded-br-4xl bg-primary/5 backdrop-blur-xs p-5 sm:p-10 sm:border shadow-md">
           <h2 className="font-jomolhari text-lg">What you'll learn</h2>
           <p className="text-primary/70 font-jomolhari mt-2">
-            You will learn how to meditate through guided sessions with one on
-            one mentorships. Track all yours progress with our digitized
-            mechanism.
+            <ul class="max-w-md space-y-1 text-body list-inside">
+              {courseData.objectives.map((item, index) => (
+                <li key={index} class="flex items-center">
+                  <svg
+                    class="w-4 h-4 text-fg-success me-1.5 shrink-0"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                    />
+                  </svg>
+                  {item}
+                </li>
+              ))}
+            </ul>
           </p>
         </div>
       </div>

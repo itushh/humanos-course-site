@@ -3,14 +3,36 @@ import { SparklesCore } from "@/components/ui/sparkles";
 import CourseCard from "@/components/CourseCard";
 import Hero from "@/components/Hero";
 import SectionTitle from "@/components/SectionTitle";
+import { useCourseStore } from "@/store/courseStore";
+import { useEffect } from "react";
+import { Loader } from "lucide-react";
 
 const Courses = () => {
+  const {
+    fetchAllCourses,
+    allCoursesData,
+    isFetchingAllCourses,
+    errorFetchingAllCourses,
+  } = useCourseStore();
+
+  useEffect(() => {
+    fetchAllCourses();
+  }, [fetchAllCourses])
+
+  if(!allCoursesData){
+    return (
+      <div className="mt-10 xl:px-20 flex justify-center">
+        {isFetchingAllCourses && <Loader className="animate-spin" />}
+        {errorFetchingAllCourses && <p className="text-center text-rose-500">{errorFetchingAllCourses}</p>}
+    </div>
+    )
+  }
+
   return (
     <div className="mt-10 xl:px-20 space-y-2">
-      <CourseCard index={0} length={4} />
-      <CourseCard index={1} length={4} />
-      <CourseCard index={2} length={4} />
-      <CourseCard index={3} length={4} />
+      {allCoursesData.map((item, index) => (
+        <CourseCard key={index} index={index} length={allCoursesData.length} courseData={item} />
+      ))}
     </div>
   );
 };

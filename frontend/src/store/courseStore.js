@@ -10,7 +10,7 @@ export const useCourseStore = create((set) => ({
   courseData: null,
   error: null,
   isFetchingCourseData: false,
-  
+
   errorEnrolling: null,
   isEnrolling: false,
   isEnrolled: false,
@@ -18,6 +18,38 @@ export const useCourseStore = create((set) => ({
   isAccessingCourse: false,
   errorAccessing: null,
   courseContent: null,
+
+  fetchAllCourses: async () => {
+    set({
+      isFetchingAllCourses: true,
+      errorFetchingAllCourses: null,
+    });
+
+    try {
+      const res = await fetch(`${BASE_URL}/all`);
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        set({
+          isFetchingAllCourses: false,
+          errorFetchingAllCourses: data.message || "Failed to fetch courses",
+        });
+        return;
+      }
+
+      set({
+        allCoursesData: data.courses,
+        isFetchingAllCourses: false,
+      });
+    } catch (error) {
+      console.error(error);
+      set({
+        isFetchingAllCourses: false,
+        errorFetchingAllCourses: "Something went wrong",
+      });
+    }
+  },
 
   fetchCourse: async (url) => {
     set({ isFetchingCourseData: true });
@@ -28,7 +60,7 @@ export const useCourseStore = create((set) => ({
     }
     const data = await res.json();
     set({ courseData: data.course, isFetchingCourseData: false });
-    console.log(data.course)
+    console.log(data.course);
   },
 
   clearEnrollmentError: () => {

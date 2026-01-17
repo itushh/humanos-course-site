@@ -1,8 +1,10 @@
 import Rating from "@/components/Rating";
 import { Link } from "react-router-dom";
 
-const CourseCard = ({ index, length }) => {
-  const courseData = {
+const CourseCard = ({
+  index,
+  length,
+  courseData = {
     _id: "695face018b9e585a70354b5",
     title: "How to meditate",
     slug: "how-to-meditate",
@@ -15,12 +17,13 @@ const CourseCard = ({ index, length }) => {
     is_active: true,
     tags: [""],
     chapters: [],
-  };
+  },
+}) => {
   return (
     <div className={"flex-col lg:flex-row flex gap-2"}>
       {/* thumbnai */}
       <div
-        className={`w-full lg:w-140 bg-primary/5 backdrop-blur-xs p-5 sm:p-10 border shadow-md ${index === 0 && "rounded-tr-4xl lg:rounded-tr-none rounded-tl-4xl"} ${index === length-1 && "lg:rounded-bl-4xl"}`}
+        className={`w-full lg:w-140 bg-primary/5 backdrop-blur-xs p-5 sm:p-10 border shadow-md ${index === 0 && "rounded-tr-4xl lg:rounded-tr-none rounded-tl-4xl"} ${index === length - 1 && "lg:rounded-bl-4xl"}`}
       >
         <div className="w-full aspect-video relative overflow-hidden after:absolute after:inset-0 after:pointer-events-none after:bg-[radial-gradient(circle_at_center,transparent_45%,rgba(250,250, 250, 0.5)_100%)] dark:after:bg-[radial-gradient(circle_at_center,transparent_45%,rgba(0,0,0,0.5)_100%)] rounded-lg">
           <img src={courseData.thumbnail} className="size-full object-cover" />
@@ -28,7 +31,9 @@ const CourseCard = ({ index, length }) => {
       </div>
 
       {/* details */}
-      <div className={`flex-1 bg-primary/5 backdrop-blur-xs p-5 sm:p-10 border shadow-md ${index === 0 && "lg:rounded-tr-4xl"} ${index === length-1 && "rounded-bl-4xl lg:rounded-bl-none rounded-br-4xl"}`}>
+      <div
+        className={`flex-1 bg-primary/5 backdrop-blur-xs p-5 sm:p-10 border shadow-md ${index === 0 && "lg:rounded-tr-4xl"} ${index === length - 1 && "rounded-bl-4xl lg:rounded-bl-none rounded-br-4xl"}`}
+      >
         <h1 className="font-jomolhari text-2xl text-primary">
           {courseData.title}
         </h1>

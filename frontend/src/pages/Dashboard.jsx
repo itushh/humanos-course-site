@@ -2,54 +2,113 @@ import CourseCard from "@/components/CourseCard";
 import Header from "@/components/Header";
 import SectionTitle from "@/components/SectionTitle";
 import { SparklesCore } from "@/components/ui/sparkles";
+import { useAccountStore } from "@/store/accountStore";
 import { useAuthStore } from "@/store/authStore";
-import { User } from "lucide-react";
+import { Loader, User } from "lucide-react";
+import { useEffect } from "react";
 import { Navigate } from "react-router-dom";
 
 const EnrolledCourses = () => {
+  const {
+    pendingCourses,
+    isFetchingEnrolledCourses,
+    errorFetchingEnrolledCourses,
+    fetchEnrolledCourses,
+  } = useAccountStore();
+
+  useEffect(() => {
+    fetchEnrolledCourses();
+  }, [fetchEnrolledCourses]);
+
+  if (isFetchingEnrolledCourses || errorFetchingEnrolledCourses) {
+    return (
+      <div className="bg-primary/5 mt-20 rounded-4xl backdrop-blur-xs p-5 sm:p-15 flex gap-10 justify-center border">
+        {isFetchingEnrolledCourses && <Loader className="animate-spin" />}
+        {errorFetchingEnrolledCourses && (
+          <span className="text-rose-500">{errorFetchingEnrolledCourses}</span>
+        )}
+      </div>
+    );
+  }
+
   return (
-    <div className="mt-10 space-y-2">
-      <CourseCard index={0} length={3} />
-      <CourseCard index={1} length={3} />
-      <CourseCard index={2} length={3} />
+    <div className="mt-20">
+      {pendingCourses && pendingCourses.length > 0 && (
+        <>
+          <SectionTitle title="Enrolled Courses" />
+          <div className="mt-10 space-y-2">
+            {pendingCourses.map((item, index) => (
+              <CourseCard
+                index={index}
+                length={pendingCourses.length}
+                courseData={item}
+              />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 };
 
 const CompletedCourses = () => {
+  const {
+    completedCourses,
+    isFetchingEnrolledCourses,
+    errorFetchingEnrolledCourses,
+  } = useAccountStore();
+
+  if (isFetchingEnrolledCourses || errorFetchingEnrolledCourses) {
+    return;
+  }
+
   return (
-    <div className="mt-10 space-y-2">
-      <CourseCard index={0} length={3} />
-      <CourseCard index={1} length={3} />
-      <CourseCard index={2} length={3} />
+    <div className="mt-20">
+      {completedCourses && completedCourses.length > 0 && (
+        <>
+          <SectionTitle title="Completed Courses" />
+          <div className="mt-10 space-y-2">
+            {completedCourses.map((item, index) => (
+              <CourseCard
+                index={index}
+                length={completedCourses.length}
+                courseData={item}
+              />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 };
 
 const UserProfile = () => {
   return (
-    <div className="mt-10 flex gap-2 font-jomolhari">
-      {/* Info */}
-      <div className="bg-primary/5 backdrop-blur-sm flex-1 border rounded-l-4xl p-10">
-        <div className="mx-auto border-primary/80 border w-fit rounded-full">
-          <User size={50} className="text-primary/80" />
+    <div className="mt-20">
+      <SectionTitle title="Your Profile" />
+      <div className="mt-10 flex gap-2 font-jomolhari">
+        {/* Info */}
+        <div className="bg-primary/5 backdrop-blur-sm flex-1 border rounded-l-4xl p-10">
+          <div className="mx-auto border-primary/80 border w-fit rounded-full">
+            <User size={50} className="text-primary/80" />
+          </div>
+          <div className="text-center mt-2">
+            <h2 className="text-xl text-primary/90">Mr Tushar Ramgirkar</h2>
+            <h2 className="text-primary/60">tusharramgirkar@gmail.com</h2>
+            <h2 className="text-primary/60">since 14 july 2005</h2>
+          </div>
         </div>
-        <div className="text-center mt-2">
-          <h2 className="text-xl text-primary/90">Mr Tushar Ramgirkar</h2>
-          <h2 className="text-primary/60">tusharramgirkar@gmail.com</h2>
-          <h2 className="text-primary/60">since 14 july 2005</h2>
-        </div>
-      </div>
-      {/* Options */}
-      <div className="w-100 space-y-2">
-        <div className="bg-primary/5 backdrop-blur-sm border text-center py-3 rounded-tr-4xl">
-          Update Profile
-        </div>
-        <div className="bg-primary/5 backdrop-blur-sm border text-center py-3">
-          Logout of Device
-        </div>
-        <div className="bg-primary/5 backdrop-blur-sm border text-center py-3">
-          Delete Profile
+        {/* Options */}
+        <div className="w-100 space-y-2">
+          <div className="bg-primary/5 backdrop-blur-sm border text-center py-3 rounded-tr-4xl">
+            Update Profile
+          </div>
+          <div className="bg-primary/5 backdrop-blur-sm border text-center py-3">
+            Logout of Device
+          </div>
+          <div className="bg-primary/5 backdrop-blur-sm border text-center py-3">
+            Delete Profile
+          </div>
         </div>
       </div>
     </div>
@@ -76,20 +135,9 @@ const Dashboard = () => {
       <div className="py-10 max-w-7xl mx-auto px-5 xl:px-0">
         <Header />
         <div className="md:px-10 xl:px-20">
-          {/* Enrolled Courses */}
-          <div className="mt-20">
-            <SectionTitle title="Enrolled Courses" />
-            <EnrolledCourses />
-          </div>
-          {/* Completed Courses */}
-          <div className="mt-20">
-            <SectionTitle title="Completed Courses" />
-            <CompletedCourses />
-          </div>
-          <div className="mt-20">
-            <SectionTitle title="Your Profile" />
-            <UserProfile />
-          </div>
+          <EnrolledCourses />
+          <CompletedCourses />
+          <UserProfile />
         </div>
       </div>
     </div>

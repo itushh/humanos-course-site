@@ -1,15 +1,37 @@
 import { Star } from "lucide-react";
 import React from "react";
 
-const Rating = () => {
+const Rating = ({ rating=5 }) => {
   return (
     <div className="flex gap-1 mt-3">
-      <Star className="fill-primary/80 stroke-primary/80" size={20} />
-      <Star className="fill-primary/80 stroke-primary/80" size={20} />
-      <Star className="fill-primary/80 stroke-primary/80" size={20} />
-      <Star className="fill-primary/80 stroke-primary/80" size={20} />
-      <Star className="fill-primary/80 stroke-primary/80" size={20} />
-      <div className="ml-2 text-primary/80">( 5.0 )</div>
+      {[...Array(Math.round(rating))].map((_, index) => (
+        <svg
+          key={index}
+          className="w-5 h-5 text-primary"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
+        </svg>
+      ))}
+      {[...Array(5 - Math.round(rating))].map((_, index) => (
+        <svg key={index}
+          className="w-5 h-5 text-primary/30"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
+        </svg>
+      ))}
+      <div className="ml-2 text-primary/80">( {rating} )</div>
     </div>
   );
 };

@@ -74,7 +74,7 @@ export const enroll = async (req, res) => {
     // 2. If course is FREE, enroll user
     if (course.price === 0) {
       const alreadyEnrolled = user.courses_enrolled.some(
-        (c) => c.courseId.toString() === course._id.toString()
+        (c) => c.courseId.toString() === course._id.toString(),
       );
 
       if (!alreadyEnrolled) {
@@ -94,7 +94,7 @@ export const enroll = async (req, res) => {
       data: {
         course,
         enrolled: user.courses_enrolled.some(
-          (c) => c.courseId.toString() === course._id.toString()
+          (c) => c.courseId.toString() === course._id.toString(),
         ),
       },
     });
@@ -117,7 +117,7 @@ export const accessCourse = async (req, res) => {
     const course = await Course.findOne({
       slug,
       is_active: true,
-    }).select("public_id title");
+    }).select("public_id title chapters");
 
     if (!course) {
       return res.status(404).json({
@@ -128,7 +128,7 @@ export const accessCourse = async (req, res) => {
 
     // 2. Check enrollment
     const enrollment = user.courses_enrolled.find(
-      (c) => c.courseId.toString() === course._id.toString()
+      (c) => c.courseId.toString() === course._id.toString(),
     );
 
     if (!enrollment) {
@@ -153,7 +153,7 @@ export const accessCourse = async (req, res) => {
     const accessUrl = generateSignedUrl(
       course.public_id,
       60 * 60, // 1 hour
-      clientIp
+      clientIp,
     );
 
     // 6. Response
@@ -162,6 +162,7 @@ export const accessCourse = async (req, res) => {
       data: {
         title: course.title,
         access_url: accessUrl,
+        chapters: course.chapters,
         expires_in: 3600,
       },
     });
@@ -177,8 +178,8 @@ export const accessCourse = async (req, res) => {
 
 export const getEnrolledCourses = async (req, res) => {
   try {
-    const userId = req.user;
-
+    const user = await req.user.populate({ path: "courses_enrolled.courseId" });
+    
     // 1. Transform response
     const enrolledCourses = user.courses_enrolled
       .filter((c) => c.courseId)
@@ -202,7 +203,10 @@ export const getEnrolledCourses = async (req, res) => {
       courses: enrolledCourses,
     });
   } catch (error) {
-    console.error("error in course.controller.js >> getEnrolledCourses :", error);
+    console.error(
+      "error in course.controller.js >> getEnrolledCourses :",
+      error,
+    );
 
     return res.status(500).json({
       success: false,

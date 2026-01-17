@@ -9,6 +9,12 @@ const chapterSchema = new Schema(
       maxlength: 200,
     },
 
+    description: {
+      type: String,
+      trim: true,
+      maxlength: 200,
+    },
+
     timestamp: {
       type: String,
       required: true,
@@ -79,6 +85,27 @@ const courseSchema = new Schema(
       type: [chapterSchema],
       default: [],
     },
+
+    guide: {
+      type: String,
+      required: true,
+    },
+
+    rating: {
+      type: Number,
+      min: 0,
+      max: 5
+    },
+
+    difficulty: {
+      type: String,
+      required: true,
+    },
+
+    objectives: {
+      type: [String],
+      default: []
+    }
   },
   {
     timestamps: true,

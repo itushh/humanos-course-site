@@ -2,22 +2,46 @@ import Header from "@/components/Header";
 import { SparklesCore } from "@/components/ui/sparkles";
 import { useCourseStore } from "@/store/courseStore";
 import { Loader } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 
-const Chapter = () => {
+const Chapter = ({ timeStamp, videoRef, title }) => {
+  const skipToChapter = () => {
+    if (!videoRef.current) return;
+
+    let seconds = 0;
+
+    if (typeof timeStamp === "string") {
+      const parts = timeStamp.split(":").map(Number);
+
+      if (parts.length === 2) {
+        seconds = parts[0] * 60 + parts[1];
+      } else if (parts.length === 3) {
+        seconds = parts[0] * 3600 + parts[1] * 60 + parts[2];
+      }
+    } else {
+      seconds = timeStamp;
+    }
+
+    videoRef.current.currentTime = seconds;
+  };
+
   return (
-    <div className="w-full border px-5 py-3 rounded-md flex gap-5">
+    <div
+      className="w-full border px-5 py-3 rounded-md flex gap-5 cursor-pointer"
+      onClick={skipToChapter}
+    >
       <div className="border text-xs flex items-center px-2 rounded font-jomolhari">
-        00:48
+        {timeStamp}
       </div>
-      <div className="font-jomolhari">An Introduction</div>
+      <div className="font-jomolhari text-nowrap overflow-x-hidden">{title}</div>
     </div>
   );
 };
 
 const CourseContent = () => {
   const { courseContent } = useCourseStore();
+  const videoRef = useRef(null);
 
   if (!courseContent) return;
 
@@ -27,38 +51,24 @@ const CourseContent = () => {
         <div className="w-full aspect-video">
           <video
             src={courseContent.access_url}
+            ref={videoRef}
             controls
             className="size-full object-cover rounded-4xl"
           ></video>
         </div>
-        <h1 className="mt-2 font-jomolhari text-xl text-center text-primary/80">{courseContent.title} : Chapter 5 (Introduction)</h1>
+        <h1 className="mt-2 font-jomolhari text-xl text-center text-primary/80">
+          {courseContent.title} : Chapter 5 (Introduction)
+        </h1>
       </div>
       <div className="space-y-3 h-full 2xl:flex-1 2xl:pr-5 overflow-auto">
-        <Chapter />
-        <Chapter />
-        <Chapter />
-        <Chapter />
-        <Chapter />
-        <Chapter />
-        <Chapter />
-        <Chapter />
-        <Chapter />
-        <Chapter />
-        <Chapter />
-        <Chapter />
-        <Chapter />
-        <Chapter />
-        <Chapter />
-        <Chapter />
-        <Chapter />
-        <Chapter />
-        <Chapter />
-        <Chapter />
-        <Chapter />
-        <Chapter />
-        <Chapter />
-        <Chapter />
-        <Chapter />
+        {courseContent.chapters.map((chapter, index) => (
+          <Chapter
+            key={index}
+            timeStamp={chapter.timestamp}
+            videoRef={videoRef}
+            title={chapter.title}
+          />
+        ))}
       </div>
     </div>
   );
